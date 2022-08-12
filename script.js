@@ -7,7 +7,16 @@ const items = document.querySelectorAll('.item');
 let index = 0;
 const slideWidth = slides[0].clientWidth;
 
+slidesCarousel.insertAdjacentHTML(
+    'afterbegin',
+    slides[slides.length - 1].outerHTML
+);
+
+slidesCarousel.insertAdjacentHTML('beforehand', slides[0].outerHTML);
+
 nextBtn.addEventListener('click', () => {
+    slidesCarousel.style.transition = 'all 0.3s ease-in-out';
+
     index++;
     slidesCarousel.style.transform = `translateX(${-slideWidth * index}px)`;
 
@@ -23,6 +32,8 @@ nextBtn.addEventListener('click', () => {
 })
 
 prevBtn.addEventListener('click', () => {
+    slidesCarousel.style.transition = 'all 0.3s ease-in-out';
+
     index--;
     slidesCarousel.style.transform = `translateX(${-slideWidth * index}px)`;
 
@@ -36,3 +47,11 @@ prevBtn.addEventListener('click', () => {
         items[index].classList.add('active');
     }
 })
+
+items.forEach((item, index) => {
+    item.addEventListener('click', () => {
+        items.forEach((item) => item.classList.remove('active'));
+        item.classList.add('active');
+        slidesCarousel.style.transform = `translateX(${-slideWidth * index}px)`;
+    });
+});
