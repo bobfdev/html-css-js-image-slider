@@ -14,44 +14,57 @@ slidesCarousel.insertAdjacentHTML(
 
 slidesCarousel.insertAdjacentHTML('beforehand', slides[0].outerHTML);
 
+slidesCarousel.style.transform = `translateX(${-slideWidth}px)`;
+
 nextBtn.addEventListener('click', () => {
     slidesCarousel.style.transition = 'all 0.3s ease-in-out';
 
     index++;
-    slidesCarousel.style.transform = `translateX(${-slideWidth * index}px)`;
+    slidesCarousel.style.transform = `translateX(${-slideWidth * (index + 1)}px)`;
 
     items.forEach((item) => item.classList.remove('active'));
 
     if (index > slides.length - 1) {
-        index = 0;
-        slidesCarousel.style.transform = `translateX(0px)`;
-        items[index].classList.add('active');
+        setTimeout(() => {
+            index = 0;
+            slidesCarousel.style.transform = `translateX(${-slideWidth}px)`;
+            items[index].classList.add('active');
+            slidesCarousel.style.transition = 'none';
+        }, 300)
     } else {
         items[index].classList.add('active');
     }
-})
+});
 
 prevBtn.addEventListener('click', () => {
     slidesCarousel.style.transition = 'all 0.3s ease-in-out';
 
     index--;
-    slidesCarousel.style.transform = `translateX(${-slideWidth * index}px)`;
+    slidesCarousel.style.transform = `translateX(${-slideWidth * (index + 1)}px)`;
 
     items.forEach((item) => item.classList.remove('active'));
 
     if (index < 0) {
-        index = slides.length - 1;
-        slidesCarousel.style.transform = `translateX(${-slideWidth * index}px)`;
-        items[index].classList.add('active');
+        setTimeout(() => {
+            index = slides.length - 1;
+            slidesCarousel.style.transform = `translateX(${-slideWidth * (index + 1)}px)`;
+            items[index].classList.add('active');
+            slidesCarousel.style.transition = 'none';
+        }, 300);
     } else {
         items[index].classList.add('active');
     }
-})
+});
 
-items.forEach((item, index) => {
+items.forEach((item, i) => {
+    slidesCarousel.style.transition = 'all 0.3s ease-in-out';
+
     item.addEventListener('click', () => {
         items.forEach((item) => item.classList.remove('active'));
+        index = i;
         item.classList.add('active');
-        slidesCarousel.style.transform = `translateX(${-slideWidth * index}px)`;
+            slidesCarousel.style.transition = 'all 0.3s ease-in-out';
+
+        slidesCarousel.style.transform = `translateX(${-slideWidth * (index + 1)}px)`;
     });
 });
